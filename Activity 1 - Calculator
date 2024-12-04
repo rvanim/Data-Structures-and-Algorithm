@@ -1,0 +1,47 @@
+//Salapare, Romina
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int num1;
+    int num2;
+    char op;
+
+    cout << "+ FOR ADDITION" << endl;
+    cout << "- FOR SUBTRACTION" << endl;
+    cout << "* FOR MULTIPLICATION" << endl;
+    cout << "/ FOR DIVISION" << endl;
+
+    cout << "Enter a number: ";
+    cin >> num1;
+
+    cout << "Enter another number: ";
+    cin >> num2;
+
+    cout << "Enter operation: ";
+    cin >> op;
+
+    switch (op) {
+        case '+':
+        cout << num1 + num2;
+        break;
+
+        case '-':
+        cout << num1 - num2;
+        break;
+
+        case '*':
+        cout << num1 * num2;
+        break;
+
+        case '/':
+        cout << num1 / num2;
+        break;
+
+    }
+
+    return 0;
+}

@@ -1,0 +1,112 @@
+//Salapare, Romina Victoria
+
+#include <iostream>
+#include <string>
+#include <stack>
+#include <cctype>
+
+using namespace std;
+
+bool isDigit(char c){
+    return isdigit(c);
+}
+
+bool isOp(char c){
+    return (c == '+' || c == '-' || c == '/' || c == '*');
+}
+
+int getPrecedence(char c){
+    switch (c){
+        case '+':
+        case '-': return 1;
+        case '*':
+        case '/': return 2;
+        default: return -1;
+
+    }
+}
+
+int operate(int val1, int val2, char op){
+    if (op == '+') return val1 + val2;
+    if (op == '-') return val1 - val2;
+    if (op == '*') return val1 * val2;
+    if (op == '/') {
+        if (val2 == 0){
+            throw runtime_error("Division by zero error.");
+        }
+        return val1 / val2;
+    }
+    return 0;
+}
+
+
+int evaluate(const string& s){
+    stack<int> vals;
+    stack<char> ops;
+    int val = 0;
+    bool buildingNumber = false;
+
+    for (char spot : s){
+        if (isspace(spot)){
+            continue;
+        }
+        if (isDigit(spot)){
+            val = (val * 10) + (spot - '0');
+            buildingNumber = true;
+        } else {
+            if (buildingNumber){
+                vals.push(val);
+                val = 0;
+                buildingNumber = false;
+            }
+
+            if (spot == '('){
+                ops.push(spot);
+            } else if (spot == ')'){
+                while (!ops.empty() && ops.top() != '('){
+                    char op = ops.top(); ops.pop();
+                    int val2 = vals.top(); vals.pop();
+                    int val1 = vals.top(); vals.pop();
+                    vals.push(operate(val1, val2, op));
+                    }
+                    ops.pop();
+            } else if (isOp(spot)) {
+                while (!ops.empty() && getPrecedence(ops.top()) >= getPrecedence(spot)){
+                    char op = ops.top(); ops.pop();
+                    int val2 = vals.top(); vals.pop();
+                    int val1 = vals.top(); vals.pop();
+                    vals.push(operate(val1, val2, op));
+                }
+                ops.push(spot);
+            }
+        }
+    }
+
+    if (buildingNumber){
+        vals.push(val);
+    }
+
+    while (!ops.empty()){
+        char op = ops.top(); ops.pop();
+        int val2 = vals.top(); vals.pop();
+        int val1 = vals.top(); vals.pop();
+        vals.push(operate(val1, val2, op));
+    }
+    return vals.top();
+}
+
+int main(){
+    string expression;
+    cout << "Enter an expression: ";
+    getline(cin, expression);
+
+    try {
+        cout << "Result: " << evaluate(expression) << endl;
+    } catch (const exception& e){
+        cerr << e.what() << endl;
+    }
+
+ 
+
+    return 0;
+}

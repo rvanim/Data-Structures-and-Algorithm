@@ -1,0 +1,132 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+
+using namespace std;
+
+vector<string> crushz = {"Carl Tamayo", "Brent", "Shan", "Kim Jongin", "Kim Junmyeon", "Sevi"};
+
+vector<string> status = {"Friends", "Friends", "Love", "Ultra Mega Crush", "Friends", "Type"};
+
+
+void addCrush(){
+    string crushx;
+    cout << "Enter another crush: ";
+    cin.ignore();
+    getline(cin, crushx);
+
+    crushz.push_back(crushx);
+    status.push_back("None");
+
+    cout << "Crush added: " << crushx << "\n";
+}
+
+
+void displayCrushes(){
+    cout << "Your current crushes: \n";
+    for(size_t i = 0; i < crushz.size(); ++i){
+        cout << "- " << crushz[i] << " - Status: " << status[i] << "\n";
+    }
+    }
+
+
+void updateCrushStatus(){
+
+    string crushx, newStatus;
+
+    cout << "Select the person you want to change status to: \n";
+    for (size_t i = 0; i < crushz.size(); ++i){
+        cout << "- " << crushz[i] << "\n";
+    }
+
+    cout << "Enter the name: ";
+    cin.ignore();
+    getline(cin, crushx);
+
+    auto it = find(crushz.begin(), crushz.end(), crushx);
+    if (it != crushz.end()){
+        int index = distance(crushz.begin(), it);
+        cout << "Enter the new status: ";
+        getline(cin, newStatus);
+        status[index] = newStatus;
+        cout << "Status for " << crushx << " updated to: " << newStatus << ".\n";
+    } else {
+        cout << "Invalid Name\n";
+    }
+}
+
+
+void deleteCrush(){
+
+    string crushx;
+
+    cout << "Crush List: \n";
+    for (const auto& crush : crushz){
+        cout << "- " << crush << "\n";
+    }
+
+    cout << "Enter the name you want to uncrush: ";
+    cin.ignore();
+    getline(cin, crushx);
+
+    auto it = find(crushz.begin(), crushz.end(), crushx);
+
+    if (it != crushz.end()) {
+        int index = distance(crushz.begin(), it);
+        crushz.erase(it);
+        status.erase(status.begin() + index);
+        cout << "Crush '" << crushx << "' has been removed from the list.\n";
+    }else{
+        cout << "Invalid Name\n";
+    }
+    }
+
+
+void menu(){
+
+    int choice;
+
+    while (true){
+        cout << "\n Crushbook: Your Crush Chronicles \n";
+        cout << "1. Add a crush. \n";
+        cout << "2. Show Your List of Crush. \n";
+        cout << "3. Update a Crush Status. \n";
+        cout << "4. Remove a Crush. \n";
+        cout << "5. Exit. \n";
+
+        cout << "\n Select an option: ";
+        cin >> choice;
+
+        switch (choice){
+        case 1:
+            addCrush();
+            break;
+        case 2:
+            displayCrushes();
+            break;
+        case 3:
+            updateCrushStatus();
+            break;
+        case 4:
+            deleteCrush();
+            break;
+        case 5:
+            cout << "Thank you!\n";
+            return;
+        default:
+            cout << "Invalid Selection.\n";
+            break;
+
+        }
+
+    }
+
+}
+
+int main(){
+    menu();
+    return 0;
+
+}

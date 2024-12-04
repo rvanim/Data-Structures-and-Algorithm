@@ -1,0 +1,58 @@
+#include <iostream>
+
+#include <string>
+
+using namespace std;
+
+
+
+
+int main(){
+
+
+
+    string myTasks[5];
+
+    int taskCount = 0;
+
+    char another;
+
+
+
+    cout << "Your to-do list." << endl << endl;
+
+
+
+
+    do {
+
+        cout << "Add a task: " << endl;
+
+        getline(cin, myTasks[taskCount]);
+
+        taskCount ++;
+
+
+
+        cout << "Add another task? (y/n): " << endl;
+
+        cin >> another;
+
+        cin.ignore();
+
+
+
+    }while(another == 'y' && taskCount < 5);
+
+    for (int i = 0; i < taskCount; i++){
+
+        cout << i + 1 << ": " << myTasks[i] << endl;
+
+    }
+
+
+
+
+    return 0;
+
+}
